@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<scenarios>
+    <scenario name="buy_simple_product_as_customer">
+        <steps>
+            <!--before can be also supported-->
+            <action name="Magento\CheckoutAgreements\Test\Action\AcceptCheckoutAgreement" after="Magento\Checkout\Test\Action\SetPaymentMethodOnCart"/>
+        </steps>
+    </scenario>
+</scenarios>

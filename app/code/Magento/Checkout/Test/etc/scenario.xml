@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<scenarios>
+    <scenario name="buy_simple_product_as_customer">
+        <preconditions>
+            <!--actions could be used as preconditions in one tests and as scenario steps in the other ones-->
+            <action name="log_in_as_customer"/>
+            <!--assertion in precondition can identify blocked scenarios-->
+            <assertion name="customer_logged_in"/>
+        </preconditions>
+        <steps>
+            <action name="Magento\Checkout\Test\Action\AddSimpleProductToCart">
+                <!--product SKU-->
+            </action>
+            <assertion name="Magento\Checkout\Test\Assertion\SimpleProductAddedToCart"/>
+
+            <action name="Magento\Checkout\Test\Action\SetShippingAddressOnCart">
+                <!--shipping address details-->
+            </action>
+            <assertion name="Magento\Checkout\Test\Assertion\ShippingAddressSetOnCart"/>
+
+            <action name="Magento\Checkout\Test\Action\SetShippingMethodOnCart">
+                <!--shipping method selection-->
+            </action>
+            <assertion name="Magento\Checkout\Test\Assertion\ShippingMethodSetOnCart"/>
+
+            <action name="Magento\Checkout\Test\Action\SetBillingAddressOnCart">
+                <!--billing address details-->
+            </action>
+            <assertion name="Magento\Checkout\Test\Assertion\BillingAddressSetOnCart"/>
+
+            <action name="Magento\Checkout\Test\Action\SetPaymentMethodOnCart">
+                <!--payment method details-->
+            </action>
+            <assertion name="Magento\Checkout\Test\Assertion\PaymentMethodSetOnCart"/>
+
+            <action name="Magento\Checkout\Test\Action\PlaceOrder">
+                <!--cart details-->
+            </action>
+            <assertion name="Magento\Sales\Test\Assertion\SimpleProductAddedToOrder"/>
+            <assertion name="Magento\Sales\Test\Assertion\ShippingAddressSetOnOrder"/>
+            <assertion name="Magento\Sales\Test\Assertion\ShippingMethodSetOnOrder"/>
+            <assertion name="Magento\Sales\Test\Assertion\BillingAddressSetOnOrder"/>
+            <assertion name="Magento\Sales\Test\Assertion\PaymentMethodSetOnOrder"/>
+
+            <!--TODO: Think about putting special method inside of action to do clean up after the test-->
+        </steps>
+        <cleanup>
+            <!--nothing to clean up because it does not make sense to remove an order-->
+        </cleanup>
+    </scenario>
+</scenarios>

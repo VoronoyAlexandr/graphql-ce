@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<scenarios>
+    <scenario name="buy_simple_product_as_customer">
+        <steps>
+            <!--TODO: may need to introduce local step alias to allow multiple actions of the same kind with different data in the same scenario-->
+            <action name="Magento\GiftMessage\Test\Action\SetGiftMessageOnCart" after="Magento\Checkout\Test\Action\SetPaymentMethodOnCart">
+                <!--Gift message details-->
+            </action>
+            <assertion name="Magento\CheckoutAgreements\Test\Assertion\GiftMessageSetOnCart">
+                <!--Gift message details-->
+            </assertion>
+        </steps>
+    </scenario>
+</scenarios>
