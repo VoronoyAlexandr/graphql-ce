@@ -18,3 +18,15 @@ type WishlistItem {
     added_at: String! @doc(description: "todo"),
     product: ProductInterface @resolver(class: "\\Magento\\WishlistGraphQl\\Model\\Resolver\\WishlistItemsProductsResolver")
 }
+
+type Mutation {
+    addItemToWishlist (input: AddItemToWishlistInput): AddItemToWishlistOutput @resolver(class: "\\Magento\\WishlistGraphQl\\Model\\Resolver\\AddItemToWishlist") @doc(description:"Add Items by SKUs to the WishList")
+}
+
+input AddItemToWishlistInput {
+    skus: [String!]
+}
+
+type AddItemToWishlistOutput {
+    wishlist: WishlistOutput!
+}
