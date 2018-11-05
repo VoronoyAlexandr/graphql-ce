@@ -12,6 +12,7 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\MaskedQuoteIdToQuoteId;
 use Magento\QuoteGraphQl\Model\Resolver\Address\AddressDataProvider;
 
@@ -61,8 +62,10 @@ class CartAddress implements ResolverInterface
             throw new LocalizedException(__('"model" value should be specified'));
         }
 
+        /** @var CartInterface $cart */
         $cart = $value['model'];
+        $maskedCartId = $value['cart_id'];
 
-        return $this->addressDataProvider->getCartAddresses($cart);
+        return $this->addressDataProvider->getCartAddresses($cart, $maskedCartId);
     }
 }

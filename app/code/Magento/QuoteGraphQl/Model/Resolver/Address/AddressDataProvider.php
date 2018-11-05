@@ -39,9 +39,10 @@ class AddressDataProvider
      * Collect and return information about shipping and billing addresses
      *
      * @param CartInterface $cart
+     * @param string $maskedCartId
      * @return array
      */
-    public function getCartAddresses(CartInterface $cart): array
+    public function getCartAddresses(CartInterface $cart, string $maskedCartId): array
     {
         $addressData = [];
         $shippingAddress = $cart->getShippingAddress();
@@ -50,12 +51,14 @@ class AddressDataProvider
         if ($shippingAddress) {
             $shippingData = $this->dataObjectConverter->toFlatArray($shippingAddress, [], AddressInterface::class);
             $shippingData['address_type'] = 'SHIPPING';
+            $shippingData['cart_id'] = $maskedCartId;
             $addressData[] = array_merge($shippingData, $this->extractAddressData($shippingAddress));
         }
 
         if ($billingAddress) {
             $billingData = $this->dataObjectConverter->toFlatArray($billingAddress, [], AddressInterface::class);
             $billingData['address_type'] = 'BILLING';
+            $billingData['cart_id'] = $maskedCartId;
             $addressData[] = array_merge($billingData, $this->extractAddressData($billingAddress));
         }
 

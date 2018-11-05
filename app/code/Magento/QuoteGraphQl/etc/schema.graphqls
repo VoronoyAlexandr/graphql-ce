@@ -1,10 +1,6 @@
 # Copyright © Magento, Inc. All rights reserved.
 # See COPYING.txt for license details.
 
-type Query {
-    getAvailableShippingMethodsOnCart(input: AvailableShippingMethodsOnCartInput): AvailableShippingMethodsOnCartOutput @doc(description:"Returns available shipping methods for cart by address/address_id")
-}
-
 type Mutation {
     createEmptyCart: String @resolver(class: "\\Magento\\QuoteGraphQl\\Model\\Resolver\\CreateEmptyCart") @doc(description:"Creates empty shopping cart for guest or logged in user")
     applyCouponToCart(input: ApplyCouponToCartInput): ApplyCouponToCartOutput @resolver(class: "\\Magento\\QuoteGraphQl\\Model\\Resolver\\ApplyCouponToCart")
@@ -41,6 +37,7 @@ input CartAddressInput {
     street: [String!]!
     city: String!
     region: String
+    region_id: Int
     postcode: String
     country_code: String!
     telephone: String!
@@ -70,18 +67,6 @@ type SetShippingMethodsOnCartOutput {
     cart: Cart!
 }
 
-# If no address is provided, the system get address assigned to a quote
-# If there's no address at all - the system returns all shipping methods
-input AvailableShippingMethodsOnCartInput {
-    cart_id: String!
-    customer_address_id: Int
-    address: CartAddressInput
-}
-
-type AvailableShippingMethodsOnCartOutput {
-    available_shipping_methods: [CheckoutShippingMethod]
-}
-
 input ApplyCouponToCartInput {
     cart_id: String!
     coupon_code: String!
@@ -99,6 +84,7 @@ type Cart {
 }
 
 type CartAddress {
+    cart_id: String
     firstname: String
     lastname: String
     company: String
@@ -110,7 +96,7 @@ type CartAddress {
     telephone: String
     address_type: AdressTypeEnum
     selected_shipping_method: CheckoutShippingMethod
-    available_shipping_methods: [CheckoutShippingMethod]
+    available_shipping_methods: [CheckoutShippingMethod] @resolver(class: "\\Magento\\QuoteGraphQl\\Model\\Resolver\\GetAvailableShippingMethodsOnCart")
     items_weight: Float
     customer_notes: String
     cart_items: [CartItemQuantity]
@@ -134,8 +120,9 @@ type CartAddressCountry {
 type CheckoutShippingMethod {
     code: String
     label: String
-    free_shipping: Boolean!
+    free_shipping: Boolean
     error_message: String
+    is_available: Boolean
     # TODO: Add more complex structure for shipping rates
 }
 
